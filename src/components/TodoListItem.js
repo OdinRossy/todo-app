@@ -1,4 +1,5 @@
 import React from 'react'
+import './TodoListItem.css'
 
 const TodoListItem = ({ text, important = false }) => {
     const style = {
@@ -6,7 +7,7 @@ const TodoListItem = ({ text, important = false }) => {
         'fontWeight': important ? 'bold' : 'normal'
     }
     return (
-        <span style={style}>{text}</span>
+        <span className="todo-list-item" style={style}>{text}</span>
     );
 }
 

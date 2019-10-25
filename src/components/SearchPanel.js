@@ -2,7 +2,9 @@ import React from 'react';
 
 const SearchPanel = () => {
     return (
-        <input type="text" placeholder="Search" />
+        <span>
+            <input className="form-control" type="text" placeholder="Search" />
+        </span>
     );
 }
 

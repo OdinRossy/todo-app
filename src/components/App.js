@@ -12,10 +12,13 @@ const App = () => {
     ]
 
     return (
-        <div>
-            <AppHeader />
-            <SearchPanel />
-            <TodoList items={todoListItems} />
+        <div className="container">
+            <div className="col-3"></div>
+            <div className="col-6"><AppHeader />
+                <SearchPanel />
+                <TodoList items={todoListItems} /></div>
+            <div className="col-3"></div>
+
         </div>
     )
 }
