@@ -3,6 +3,9 @@ import React from 'react'
 import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
 import TodoList from '../TodoList'
+import ItemStatusFilter from '../ItemStatusFilter'
+
+import './App.css'
 
 const App = () => {
     const todoListItems = [
@@ -12,13 +15,14 @@ const App = () => {
     ]
 
     return (
-        <div className="container">
-            <div className="col-3"></div>
-            <div className="col-6"><AppHeader />
+        <div className="todo-app">
+            <AppHeader todoCount={1} doneCount={3} />
+            <div className="top-panel d-flex">
                 <SearchPanel />
-                <TodoList items={todoListItems} /></div>
-            <div className="col-3"></div>
+                <ItemStatusFilter />
+            </div>
 
+            <TodoList items={todoListItems} />
         </div>
     )
 }

@@ -4,7 +4,7 @@ import './SerchPanel.css'
 const SearchPanel = () => {
     return (
         <span>
-            <input className="form-control" type="text" placeholder="Search" />
+            <input className="form-control search-input" type="text" placeholder="Search" />
         </span>
     );
 }
