@@ -1,8 +1,8 @@
 import React from 'react'
 
-import AppHeader from '../AppHeader/AppHeader';
-import SearchPanel from '../SearchPanel/SearchPanel';
-import TodoList from '../TodoList/TodoList'
+import AppHeader from '../AppHeader';
+import SearchPanel from '../SearchPanel';
+import TodoList from '../TodoList'
 
 const App = () => {
     const todoListItems = [
