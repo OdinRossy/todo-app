@@ -1,7 +1,7 @@
 import React from 'react';
 import './TodoList.css'
 
-import TodoListItem from './TodoListItem'
+import TodoListItem from '../TodoListItem/TodoListItem'
 
 const TodoList = ({ items = [] }) => {
     const elements = items.map((item) => {
