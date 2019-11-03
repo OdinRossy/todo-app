@@ -3,27 +3,52 @@ import './TodoListItem.css'
 
 class TodoListItem extends React.Component {
 
-    onLabelClick = () => {
+    constructor() {
+        super();
+
+        this.state = {
+            done: false,
+            important: false
+        }
+    }
+
+    toggleDone = () => {
         console.log(this.props.label)
+        this.setState({
+            done: !this.state.done
+        })
+    }
+
+    toggleImportant = () => {
+        this.setState({
+            important: !this.state.important
+        })
     }
 
     render() {
-        const { label, important = false } = this.props
+        const { label } = this.props
+        const { done, important } = this.state;
 
-        const style = {
-            color: important ? 'steelblue' : '#333333',
-            'fontWeight': important ? 'bold' : 'normal'
+        let classNames = 'todo-list-item';
+
+        if (done) {
+            classNames += ' done'
+        }
+
+        if (important) {
+            classNames += ' important'
         }
 
         return (
-            <span className="todo-list-item" >
+            <span className={classNames} >
                 <span
                     className="todo-list-item-label"
-                    onClick={this.onLabelClick}
-                    style={style}>{label}
+                    onClick={this.toggleDone}
+                >{label}
                 </span>
 
                 <button type="button"
+                    onClick={this.toggleImportant}
                     className="btn btn-outline-success btn-sm float-right">
                     <i className="fa fa-exclamation" />
                 </button>
