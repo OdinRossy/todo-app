@@ -13,7 +13,6 @@ class TodoListItem extends React.Component {
     }
 
     toggleDone = () => {
-        console.log(this.props.label)
         this.setState(({ done }) => {
             return {
                 done: !done,
@@ -32,7 +31,7 @@ class TodoListItem extends React.Component {
     }
 
     render() {
-        const { label } = this.props
+        const { label, onItemDelete } = this.props
         const { done, important } = this.state;
 
         let classNames = 'todo-list-item';
@@ -60,7 +59,8 @@ class TodoListItem extends React.Component {
                 </button>
 
                 <button type="button"
-                    className="btn btn-outline-danger btn-sm float-right">
+                    className="btn btn-outline-danger btn-sm float-right"
+                    onClick={onItemDelete}>
                     <i className="fa fa-trash-o" />
                 </button>
             </span>

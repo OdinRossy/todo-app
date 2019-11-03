@@ -7,24 +7,60 @@ import ItemStatusFilter from '../ItemStatusFilter'
 
 import './App.css'
 
-const App = () => {
-    const todoListItems = [
-        { id: 1, label: 'Build awesome app', important: true },
-        { id: 2, label: 'Drink some cofee', important: false },
-        { id: 3, label: 'Have a nice day', important: false },
-    ]
+const todoListItems = [
+    { id: 1, label: 'Build awesome app', important: true },
+    { id: 2, label: 'Drink some cofee', important: false },
+    { id: 3, label: 'Have a nice day', important: false },
+]
 
-    return (
-        <div className="todo-app">
-            <AppHeader todoCount={1} doneCount={3} />
-            <div className="top-panel d-flex">
-                <SearchPanel />
-                <ItemStatusFilter />
+class App extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            todoListItems: []
+        }
+    }
+
+    componentDidMount() {
+        this.setState({
+            todoListItems: todoListItems
+        })
+    }
+
+    onItemDelete = (itemId) => {
+        this.setState(({ todoListItems }) => {
+
+            const indexOfItemToDelete = todoListItems.findIndex(
+                (item) => item.id === itemId
+            );
+
+            return {
+                todoListItems: [
+                    ...todoListItems.slice(0, indexOfItemToDelete),
+                    ...todoListItems.slice(indexOfItemToDelete + 1)
+                ]
+            };
+        })
+    }
+
+    render() {
+        return (
+            <div className="todo-app" >
+                <AppHeader todoCount={1} doneCount={3} />
+                <div className="top-panel d-flex">
+                    <SearchPanel />
+                    <ItemStatusFilter />
+                </div>
+
+                <TodoList
+                    items={this.state.todoListItems}
+                    onItemDelete={this.onItemDelete}
+                />
             </div>
+        )
+    }
 
-            <TodoList items={todoListItems} />
-        </div>
-    )
 }
 
 export default App
