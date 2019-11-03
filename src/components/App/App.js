@@ -4,6 +4,7 @@ import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
 import TodoList from '../TodoList'
 import ItemStatusFilter from '../ItemStatusFilter'
+import ItemAddForm from '../ItemAddForm'
 
 import './App.css'
 
@@ -28,6 +29,11 @@ class App extends React.Component {
         })
     }
 
+    generateItemId = () => {
+        const size = this.state.todoListItems.length;
+        return size + 1;
+    }
+
     onItemDelete = (itemId) => {
         this.setState(({ todoListItems }) => {
 
@@ -44,6 +50,24 @@ class App extends React.Component {
         })
     }
 
+    onItemAdd = (label) => {
+        console.log('onItemAdd', label)
+
+        const newItem = {
+            id: this.generateItemId(),
+            label,
+            important: false
+        }
+
+        this.setState(({ todoListItems }) => {
+            const items = [...todoListItems, newItem];
+
+            return {
+                todoListItems: items
+            }
+        })
+    }
+
     render() {
         return (
             <div className="todo-app" >
@@ -57,6 +81,9 @@ class App extends React.Component {
                     items={this.state.todoListItems}
                     onItemDelete={this.onItemDelete}
                 />
+
+                <ItemAddForm
+                    onItemAdd={this.onItemAdd} />
             </div>
         )
     }
