@@ -3,20 +3,25 @@ import './TodoListItem.css'
 
 class TodoListItem extends React.Component {
 
-
+    onLabelClick = () => {
+        console.log(this.props.label)
+    }
 
     render() {
-
-        const { text, important = false } = this.props
+        const { label, important = false } = this.props
 
         const style = {
-            color: important ? 'tomato' : '#333333',
+            color: important ? 'steelblue' : '#333333',
             'fontWeight': important ? 'bold' : 'normal'
         }
 
         return (
             <span className="todo-list-item" >
-                <span className="todo-list-item-label" style={style}>{text}</span>
+                <span
+                    className="todo-list-item-label"
+                    onClick={this.onLabelClick}
+                    style={style}>{label}
+                </span>
 
                 <button type="button"
                     className="btn btn-outline-success btn-sm float-right">

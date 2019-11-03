@@ -9,9 +9,9 @@ import './App.css'
 
 const App = () => {
     const todoListItems = [
-        { id: 1, text: 'Build awesome app', important: true },
-        { id: 2, text: 'Drink some cofee', important: false },
-        { id: 3, text: 'Have a nice day', important: false },
+        { id: 1, label: 'Build awesome app', important: true },
+        { id: 2, label: 'Drink some cofee', important: false },
+        { id: 3, label: 'Have a nice day', important: false },
     ]
 
     return (
