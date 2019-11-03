@@ -14,14 +14,20 @@ class TodoListItem extends React.Component {
 
     toggleDone = () => {
         console.log(this.props.label)
-        this.setState({
-            done: !this.state.done
+        this.setState(({ done }) => {
+            return {
+                done: !done,
+                important: false
+            }
         })
     }
 
     toggleImportant = () => {
-        this.setState({
-            important: !this.state.important
+        this.setState(({ important }) => {
+            return {
+                done: false,
+                important: !important
+            }
         })
     }
 
