@@ -8,38 +8,52 @@ import ItemAddForm from '../ItemAddForm'
 
 import './App.css'
 
-const todoListItems = [
-    { id: 1, label: 'Build awesome app', important: true },
-    { id: 2, label: 'Drink some cofee', important: false },
-    { id: 3, label: 'Have a nice day', important: false },
-]
-
 class App extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            todoListItems: []
+            todoListItems: [
+                this.createItem('Build awesome app'),
+                this.createItem('Drink some cofee'),
+                this.createItem('Have a nice day'),
+            ]
         }
     }
 
-    componentDidMount() {
-        this.setState({
-            todoListItems: todoListItems
-        })
+    itemsCounter = 0;
+
+    findItemIndexById = (id, list) => {
+        return list.findIndex(
+            (item) => item.id === id
+        );
     }
 
-    generateItemId = () => {
-        const size = this.state.todoListItems.length;
-        return size + 1;
+    createItem = (label) => {
+        if (label !== '') {
+            return {
+                id: this.itemsCounter++,
+                label,
+                important: false,
+                done: false
+            }
+        }
+    }
+
+    toggleProperty = (propName, id, arr) => {
+        const i = this.findItemIndexById(id, arr)
+        const oldItem = arr[i]
+        return [
+            ...arr.slice(0, i),
+            { ...oldItem, [propName]: !oldItem[propName] },
+            ...arr.slice(i + 1)
+        ]
     }
 
     onItemDelete = (itemId) => {
         this.setState(({ todoListItems }) => {
 
-            const indexOfItemToDelete = todoListItems.findIndex(
-                (item) => item.id === itemId
-            );
+            const indexOfItemToDelete = this.findItemIndexById(itemId, todoListItems)
 
             return {
                 todoListItems: [
@@ -51,35 +65,53 @@ class App extends React.Component {
     }
 
     onItemAdd = (label) => {
-        console.log('onItemAdd', label)
+        const newItem = this.createItem(label);
 
-        const newItem = {
-            id: this.generateItemId(),
-            label,
-            important: false
+        if (newItem) {
+            this.setState(({ todoListItems }) => {
+                const items = [...todoListItems, newItem];
+                return {
+                    todoListItems: items
+                }
+            })
         }
+    }
 
+
+    onToggleImportant = (id) => {
         this.setState(({ todoListItems }) => {
-            const items = [...todoListItems, newItem];
-
             return {
-                todoListItems: items
+                todoListItems: this.toggleProperty('important', id, todoListItems)
+            }
+        })
+    }
+
+    onToggleDone = (id) => {
+        this.setState(({ todoListItems }) => {
+            return {
+                todoListItems: this.toggleProperty('done', id, todoListItems)
             }
         })
     }
 
     render() {
+        const { todoListItems } = this.state
+        const doneCount = todoListItems.filter((item) => item.done).length;
+        const todoCount = todoListItems.length - doneCount;
+
         return (
             <div className="todo-app" >
-                <AppHeader todoCount={1} doneCount={3} />
+                <AppHeader todoCount={todoCount} doneCount={doneCount} />
                 <div className="top-panel d-flex">
                     <SearchPanel />
                     <ItemStatusFilter />
                 </div>
 
                 <TodoList
-                    items={this.state.todoListItems}
+                    items={todoListItems}
                     onItemDelete={this.onItemDelete}
+                    onToggleImportant={this.onToggleImportant}
+                    onToggleDone={this.onToggleDone}
                 />
 
                 <ItemAddForm
