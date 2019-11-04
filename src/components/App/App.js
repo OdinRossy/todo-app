@@ -10,6 +10,8 @@ import './App.css'
 
 class App extends React.Component {
 
+
+
     constructor() {
         super();
         this.state = {
@@ -17,7 +19,8 @@ class App extends React.Component {
                 this.createItem('Build awesome app'),
                 this.createItem('Drink some cofee'),
                 this.createItem('Have a nice day'),
-            ]
+            ],
+            term: ''
         }
     }
 
@@ -94,8 +97,24 @@ class App extends React.Component {
         })
     }
 
+    onSearchType = (term) => {
+        this.setState({
+            term: term
+        })
+    }
+
+    searchItems = (items, term) => {
+        if (term.length === 0) {
+            return items
+        }
+        return items.filter((it) => {
+            return it.label.indexOf(term) > -1
+        })
+    }
+
     render() {
-        const { todoListItems } = this.state
+        const { todoListItems, term } = this.state
+        const itemsToShow = this.searchItems(todoListItems, term)
         const doneCount = todoListItems.filter((item) => item.done).length;
         const todoCount = todoListItems.length - doneCount;
 
@@ -103,12 +122,13 @@ class App extends React.Component {
             <div className="todo-app" >
                 <AppHeader todoCount={todoCount} doneCount={doneCount} />
                 <div className="top-panel d-flex">
-                    <SearchPanel />
+                    <SearchPanel
+                        onSearchType={this.onSearchType} />
                     <ItemStatusFilter />
                 </div>
 
                 <TodoList
-                    items={todoListItems}
+                    items={itemsToShow}
                     onItemDelete={this.onItemDelete}
                     onToggleImportant={this.onToggleImportant}
                     onToggleDone={this.onToggleDone}
