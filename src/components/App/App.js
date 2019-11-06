@@ -108,7 +108,14 @@ class App extends React.Component {
             return items
         }
         return items.filter((it) => {
-            return it.label.indexOf(term) > -1
+            return it.label.toLowerCase()
+                .indexOf(term.toLowerCase()) > -1
+        })
+    }
+
+    filterItems = (items, criteria) => {
+        return items.filter((it) => {
+            return it[criteria]
         })
     }
 
