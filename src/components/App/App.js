@@ -10,8 +10,6 @@ import './App.css'
 
 class App extends React.Component {
 
-
-
     constructor() {
         super();
         this.state = {
@@ -20,7 +18,8 @@ class App extends React.Component {
                 this.createItem('Drink some cofee'),
                 this.createItem('Have a nice day'),
             ],
-            term: ''
+            term: '',
+            filter: 'all',
         }
     }
 
@@ -80,7 +79,6 @@ class App extends React.Component {
         }
     }
 
-
     onToggleImportant = (id) => {
         this.setState(({ todoListItems }) => {
             return {
@@ -99,7 +97,13 @@ class App extends React.Component {
 
     onSearchType = (term) => {
         this.setState({
-            term: term
+            term
+        })
+    }
+
+    onFilterChange = (filter) => {
+        this.setState({
+            filter
         })
     }
 
@@ -113,15 +117,27 @@ class App extends React.Component {
         })
     }
 
-    filterItems = (items, criteria) => {
-        return items.filter((it) => {
-            return it[criteria]
-        })
+    filterItems = (items, filter) => {
+        switch (filter.toLowerCase()) {
+            case 'all': {
+                return items
+            }
+            case 'active': {
+                return items.filter(it => !it.done)
+            }
+            case 'done': {
+                return items.filter(it => it.done)
+            }
+            default: {
+                console.error('Unexpected filter', filter)
+                return null
+            }
+        }
     }
 
     render() {
-        const { todoListItems, term } = this.state
-        const itemsToShow = this.searchItems(todoListItems, term)
+        const { todoListItems, term, filter } = this.state
+        const itemsToShow = this.filterItems(this.searchItems(todoListItems, term), filter);
         const doneCount = todoListItems.filter((item) => item.done).length;
         const todoCount = todoListItems.length - doneCount;
 
@@ -131,7 +147,9 @@ class App extends React.Component {
                 <div className="top-panel d-flex">
                     <SearchPanel
                         onSearchType={this.onSearchType} />
-                    <ItemStatusFilter />
+                    <ItemStatusFilter
+                        filter={filter}
+                        onFilter={this.onFilterChange} />
                 </div>
 
                 <TodoList
