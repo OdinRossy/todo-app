@@ -30,6 +30,8 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gh-pages": "^2.1.1"
+  },
   "homepage": "https://odinrossy.github.io/todo-app"
 }
