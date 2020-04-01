@@ -8,6 +8,6 @@ const AppHeader = ({ todoCount, doneCount }) => {
             <h2>{todoCount} more todo, {doneCount} done.</h2>
         </div>
     );
-}
+};
 
 export default AppHeader;
